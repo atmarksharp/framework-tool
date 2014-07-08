@@ -1,0 +1,189 @@
+#!/usr/bin/env ruby
+
+require "open3"
+
+class FrameWorkUtil
+	def blank?(s)
+		!(s and s.include?(' '))
+	end
+
+	def shell(s)
+		output, err, status = Open3.capture3(s)
+		output
+		# if blank? err
+		# 	puts "[ERROR] " + err
+		# end
+	end
+
+	def init_args
+		@mac_version = "10.9"
+		@ios_version = "7.1"
+
+		@developer_path = "/Applications/Xcode.app/Contents/Developer"
+		@framework_path = "/System/Library/Frameworks/"
+		@mac_sdk_path = "/Platforms/MacOSX.platform/Developer/SDKs/MacOSX" + @mac_version + ".sdk/"
+		@ios_sdk_path = "/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS" + @ios_version + ".sdk/"
+
+		@args_map =
+			{
+				"list" => "l",
+				"search" => "s",
+				"header" => "h",
+				"contents" => "c",
+				"includes" => "i",
+				"fields" => "f",
+				"module" => "m",
+				"allheader" => "ah",
+				"open" => "open"
+			}
+
+		@argn = ARGV[0].to_i
+		@args = ARGV
+		@opts = []
+		@files = []
+	end
+
+	def opt_parse()
+		@opts = @args.select{|n| n.start_with? "-"}
+		@files = @args.select{|n| !(n.start_with? "-")}
+		@opts = @opts.map{|s| s.split("-").join}
+	end
+
+	def opt_has?(s)
+		@opts.include?(s) or @opts.include?(@args_map[s])
+	end
+
+	def before_main()
+		puts ""
+	end
+
+	def after_main()
+		puts "\n"
+	end
+
+	def fr_list()
+		lst = shell("ls " + @framework_path + " | grep framework")
+		lst.split(".framework").join.split("\n")
+	end
+
+	def fr_search(file)
+		out = ""
+		lst = shell("ls " + @framework_path + " | grep framework | grep " + file)
+		out += lst.split(".framework").join
+		out
+	end
+
+	def fr_header(framework)
+		lst = shell("ls " + @framework_path + framework + ".framework/Headers/ | grep .h")
+		lst.split(".h").join.split("\n")
+	end
+
+	def fr_open(framework)
+		shell("open " + @framework_path + framework + ".framework")
+	end
+
+	def fr_contents(framework,target)
+		shell("cat " + @framework_path + framework + ".framework/Headers/" + target + ".h")
+	end
+
+	def fr_includes(framework,target)
+		inclu = shell("cat " + @framework_path + framework + ".framework/Headers/" + target + ".h" + " | grep \"#include\"")
+		inclu = inclu.split("\t").join
+		inclu = inclu.split("#include ").join
+		inclu = inclu.split(/[<>"]|\.h/).join
+		inclu.split("\n")
+	end
+
+	def fr_module(framework)
+		shell("cat " + @framework_path + framework + ".framework/module.map")
+	end
+
+	def fr_fields(framework,target)
+		header_file = @framework_path + framework + ".framework/Headers/" + target + ".h"
+		tags = shell("cd /tmp; ctags " + header_file + "; cat /tmp/tags")
+		fields = tags.split("\n").map{|s| tbl = s.split("\t"); [tbl[0], tbl[2]].join("\t")}
+		fields
+	end
+
+	def main()
+		before_main
+
+		if opt_has? "list"
+
+			puts "[Frameworks]\n\n"
+			puts fr_list()
+
+		elsif opt_has? "search"
+
+			file = @files[0]
+
+			puts "[Found]\n\n"
+			puts fr_search(file)
+
+		elsif opt_has? "header"
+
+			framework = @files[0]
+
+			puts "[Headers of \"" + framework + "\"]","\n"
+			puts fr_header(framework)
+
+		elsif opt_has? "open"
+
+			framework = @files[0]
+
+			puts "[Opening \"" + framework + "\"]","\n"
+			fr_open(framework)
+			puts "[Opened \"" + framework + "\"]","\n"
+
+		elsif opt_has? "contents"
+
+			framework = @files[0]
+			target = @files[1]
+
+			puts "[Contents of \"" + framework + "/" + target + ".h" + "\"]","\n"
+			puts "++========= [START] =========++\n"
+			puts fr_contents(framework,target)
+			puts "++========= [EOF] =========++"
+
+		elsif opt_has? "includes"
+			framework = @files[0]
+			target = @files[1]
+
+			puts "[Includes of \"" + framework + "/" + target + ".h" + "\"]","\n"
+			puts fr_includes(framework,target)
+
+		elsif opt_has? "module"
+			framework = @files[0]
+
+			puts "[module.map of "+ framework +"]"
+			puts fr_module(framework)
+
+		elsif opt_has? "fields"
+			framework = @files[0]
+			target = @files[1]
+
+			puts "[Fields of \"" + framework + "/" + target + ".h" + "\"]","\n"
+			puts fr_fields(framework,target)
+
+		elsif opt_has? "allheader"
+			frameworks = fr_list()
+			headers = frameworks.flat_map{|fr| 
+				fr_header(fr).map{|hd| 
+					fr + "\t" + hd.to_s
+				}
+			}
+
+			puts headers
+		end
+
+		after_main
+	end
+
+	def initialize()
+		init_args
+		opt_parse
+		main
+	end
+end
+
+fu = FrameWorkUtil.new
