@@ -94,6 +94,13 @@ framework-tool -help
 - output
 
 ```
+====<<  USAGE  >>===================================
+
+  $ framework-tool [framework] [file] [-?lshcifmao]
+
+
+==<<  PARAMETERS  >>================================
+
   -help | -?   ........  show help (this page)
   -list | -l   ........  print all frameworks
   -search | -s  .......  search [framework]
@@ -129,6 +136,7 @@ framework-tool -help
   			 -----------------------------------------------------
 
 
+====<<  /EOF  >>====================================
 ```
 
 ### Show framework list
