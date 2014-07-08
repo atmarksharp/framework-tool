@@ -26,19 +26,19 @@ _**Display infomations of frameworks for Mac**_
 #### Install on the fly
 
 ```
-curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/install.sh | sh
+curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/sh/install.sh | sh
 ```
 
 #### Update 
 
 ```
-curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/update.sh | sh
+curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/sh/update.sh | sh
 ```
 
 #### Uninstall 
 
 ```
-curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/uninstall.sh | sh
+curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/sh/uninstall.sh | sh
 ```
 
 ## Usage
