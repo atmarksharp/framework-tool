@@ -1,10 +1,12 @@
 # Framework-tool
 
-![Framework](mac-component-kit.png)
+![Framework](pictures/mac-component-kit.png)
 
 _**Display infomations of frameworks for Mac**_
 
 ## Requirements
+
+![Macbook](pictures/macbook.jpg)
 
 ### Platform
 
@@ -15,19 +17,39 @@ _**Display infomations of frameworks for Mac**_
 - \> Ruby 1.9
 - \> open3 (gem)
 
-## License
+### License
 
 MIT Lisence
 
 ## Install
 
-TO DO
+### Install on the fly
+
+```
+curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/install.sh | sh
+```
+
+### Update 
+
+```
+curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/update.sh | sh
+```
+
+### Uninstall 
+
+```
+curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/uninstall.sh | sh
+```
 
 ## Usage
 
-**framework-tool** &emsp; *[framework]* &emsp; *[file]* &emsp; *[-?lshcifmao]*
+![Terminal](pictures/terminal.png)
 
-## Parameters
+### Command line
+
+> **framework-tool** &emsp; *[framework]* &emsp; *[file]* &emsp; *[-?lshcifmao]*
+
+### Parameters
 
 - **-help** | -?
 <br>&emsp;&emsp; show help (this page)
