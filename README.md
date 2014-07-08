@@ -8,34 +8,34 @@ _**Display infomations of frameworks for Mac**_
 
 ![Macbook](pictures/macbook.jpg)
 
-### Platform
+#### Platform
 
 - \> Mac OS X 10.8 &emsp;&emsp;(tested on 10.9.3)
   
-### Dependency
+#### Dependency
 
 - \> Ruby 1.9
 - \> open3 (gem)
 
-### License
+#### License
 
-MIT Lisence
+- MIT Lisence
 
 ## Install
 
-### Install on the fly
+#### Install on the fly
 
 ```
 curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/install.sh | sh
 ```
 
-### Update 
+#### Update 
 
 ```
 curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/update.sh | sh
 ```
 
-### Uninstall 
+#### Uninstall 
 
 ```
 curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/uninstall.sh | sh
@@ -45,11 +45,11 @@ curl https://raw.githubusercontent.com/atmarksharp/framework-tool/master/uninsta
 
 ![Terminal](pictures/terminal.png)
 
-### Command line
+#### Command line
 
 > **framework-tool** &emsp; *[framework]* &emsp; *[file]* &emsp; *[-?lshcifmao]*
 
-### Parameters
+#### Parameters
 
 - **-help** | -?
 <br>&emsp;&emsp; show help (this page)
