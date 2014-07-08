@@ -1,5 +1,8 @@
-echo "Install started"
+echo "[Log] Install started"
 echo ""
-echo "Note: password required"
+echo "[Log] Password required"
+
 sudo cp framework-tool /usr/bin/framework-tool
-echo "[ Install successed ]"
+
+echo ""
+echo "[Log] Install successed "
