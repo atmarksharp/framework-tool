@@ -440,7 +440,7 @@ framework-tool -allheader
 - output
 
 ```
-( 一部省略 )
+( Some eliminated )
 
 Foundation	NSPointerArray
 Foundation	NSPointerFunctions
@@ -556,7 +556,6 @@ Python	pyctype
 Python	pydebug
 Python	pyerrors
 Python	pyexpat
-
 WebKit	DOMHTMLOptionsCollection
 WebKit	DOMHTMLParagraphElement
 WebKit	DOMHTMLParamElement
