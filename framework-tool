@@ -10,9 +10,6 @@ class FrameWorkUtil
 	def shell(s)
 		output, err, status = Open3.capture3(s)
 		output
-		# if blank? err
-		# 	puts "[ERROR] " + err
-		# end
 	end
 
 	def init_args
@@ -26,6 +23,7 @@ class FrameWorkUtil
 
 		@args_map =
 			{
+				"help" => "?",
 				"list" => "l",
 				"search" => "s",
 				"header" => "h",
@@ -33,11 +31,11 @@ class FrameWorkUtil
 				"includes" => "i",
 				"fields" => "f",
 				"module" => "m",
-				"allheader" => "ah",
-				"open" => "open"
+				"allheader" => "a",
+				"open" => "o"
 			}
 
-		@argn = ARGV[0].to_i
+		@argn = ARGV.size
 		@args = ARGV
 		@opts = []
 		@files = []
@@ -59,6 +57,61 @@ class FrameWorkUtil
 
 	def after_main()
 		puts "\n"
+	end
+
+	def fr_help()
+		def put_ex(s)
+			template = "\t\t\t  ex)  "
+			len = s.size
+			put template + s
+			put "\t\t\t -------" + ("-"*len)
+		end
+
+		def put(s="")
+			if s == ""
+				puts
+			else
+				puts "  " + s
+			end
+		end
+
+		puts "====<<  USAGE  >>==================================="
+		puts
+		put "$ framework-tool [framework] [file] [-?lshcifmao]"
+		put
+		put
+		puts "==<<  PARAMETERS  >>================================"
+		puts
+		put "-help | -?   ........  show help (this page)"
+		put "-list | -l   ........  print all frameworks"
+		put "-search | -s  .......  search [framework]"
+		put
+		put_ex "framework-tool \"Audio\" -search"
+		put
+		put "-header | -h  .......  show header-files of [framework]"
+		put
+		put_ex "framework-tool \"AudioUnit\" -h"
+		put
+		put "-contents | -c ......  print contents of [file] with [framework]"
+		put
+		put_ex "framework-tool \"AudioUnit\" \"AUComponent\" -c"
+		put
+		put "-includes | -i ......  print includes of [file] with [framework]"
+		put "-fields | -f  .......  print fields of [file] with [framework]"
+		put "-module | -m  .......  print module.map of [framework]"
+		put
+		put_ex "framework-tool \"AudioUnit\" -module"
+		put
+		put "-allheader | -a  .......  show all headers"
+		put
+		put_ex "framework-tool -a"
+		put
+		put "-open | -o  .......  open [file] in [framework]"
+		put
+		put_ex "framework-tool \"AudioUnit\" \"AUComponent\" -open"
+		put
+		puts
+		puts "====<<  /EOF  >>===================================="
 	end
 
 	def fr_list()
@@ -131,9 +184,8 @@ class FrameWorkUtil
 
 			framework = @files[0]
 
-			puts "[Opening \"" + framework + "\"]","\n"
+			puts "opening \"" + framework + "\" ...","\n"
 			fr_open(framework)
-			puts "[Opened \"" + framework + "\"]","\n"
 
 		elsif opt_has? "contents"
 
@@ -166,6 +218,9 @@ class FrameWorkUtil
 			puts fr_fields(framework,target)
 
 		elsif opt_has? "allheader"
+			puts "wait few seconds ..."
+			puts
+
 			frameworks = fr_list()
 			headers = frameworks.flat_map{|fr| 
 				fr_header(fr).map{|hd| 
@@ -174,6 +229,8 @@ class FrameWorkUtil
 			}
 
 			puts headers
+		else
+			fr_help
 		end
 
 		after_main
