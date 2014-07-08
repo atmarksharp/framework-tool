@@ -600,4 +600,4 @@ Please fork me!
 
 ### Contributor
 
-http://atmarksharp.com/ (Japanese only)
+http://atmarksharp.com/ (lang: Japanese)
